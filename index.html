@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GrayQuest Fee Financing – Yenepoya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0b1f3a;
+      --navy-mid: #122848;
+      --navy-light: #1a3560;
+      --gold: #c9a84c;
+      --gold-light: #e3c47a;
+      --cream: #f9f5ee;
+      --white: #ffffff;
+      --teal: #1a7a6e;
+      --teal-light: #2ab09a;
+      --teal-bg: rgba(26,122,110,0.12);
+      --light-border: rgba(201,168,76,0.25);
+      --card-bg: rgba(255,255,255,0.04);
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 10% 80%, rgba(26,53,96,0.6) 0%, transparent 60%),
+        repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.02) 40px, rgba(201,168,76,0.02) 41px);
+      pointer-events: none; z-index: 0;
+    }
+
+    .wrapper { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* HEADER */
+    header {
+      padding: 22px 40px;
+      border-bottom: 1px solid var(--light-border);
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(11,31,58,0.88);
+      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo-mark {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 21px; font-weight: 700;
+      color: var(--navy); flex-shrink: 0;
+    }
+    .header-text h1 { font-family: 'Playfair Display', serif; font-size: clamp(16px, 2.5vw, 23px); color: var(--white); line-height: 1.1; }
+    .header-text .sub { font-size: 11px; font-weight: 500; color: var(--gold); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 3px; display: block; }
+    .helpdesk-pill {
+      margin-left: auto;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid var(--light-border);
+      border-radius: 50px; padding: 7px 16px;
+      font-size: 12px; color: var(--gold-light);
+      white-space: nowrap; display: flex; align-items: center; gap: 8px;
+    }
+    .helpdesk-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+    /* MAIN */
+    main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 48px 24px 48px; }
+
+    .screen { display: none; width: 100%; max-width: 740px; animation: fadeUp .45s ease both; }
+    .screen.active { display: block; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    .section-eyebrow { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(24px,4vw,36px); line-height: 1.2; margin-bottom: 10px; }
+    .section-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 30px; }
+
+    /* ROLE CARDS */
+    .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .role-card {
+      background: var(--card-bg);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius); padding: 28px 22px;
+      cursor: pointer;
+      transition: border-color .25s, transform .2s, background .25s;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+    }
+    .role-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.07); transform: translateY(-3px); }
+    .role-card .icon { width: 46px; height: 46px; background: rgba(201,168,76,0.12); border-radius: 12px; display: grid; place-items: center; font-size: 21px; }
+    .role-card h3 { font-size: 16px; font-weight: 600; }
+    .role-card p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+    .role-card .arrow { margin-top: auto; font-size: 18px; color: var(--gold); }
+
+    /* EMAIL GATE */
+    .email-box { background: var(--card-bg); border: 1.5px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 32px 28px; margin-bottom: 18px; }
+    .email-box label { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7); display: block; margin-bottom: 10px; }
+    .email-box input {
+      width: 100%; background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 13px 18px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--white);
+      outline: none; transition: border-color .2s;
+    }
+    .email-box input:focus { border-color: var(--gold); }
+    .email-box input::placeholder { color: rgba(255,255,255,0.25); }
+    .email-hint { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 8px; }
+    .error-msg { font-size: 13px; color: #f07070; margin-top: 10px; display: none; }
+
+    /* BUTTONS */
+    .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity .2s, transform .15s; letter-spacing: .3px; }
+    .btn:hover { opacity: .9; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); }
+    .btn-ghost { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12); color: var(--white); margin-top: 12px; }
+
+    /* WELCOME BADGE */
+    .welcome-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.25); border-radius: 50px; padding: 6px 16px; font-size: 13px; color: var(--gold-light); margin-bottom: 20px; }
+
+    /* RESOURCE CARDS */
+    .resource-card {
+      background: var(--card-bg);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius); padding: 18px 22px;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 18px;
+      text-decoration: none; color: var(--white);
+      transition: border-color .2s, transform .2s, background .2s;
+    }
+    .resource-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.07); transform: translateX(4px); }
+    .resource-icon { width: 44px; height: 44px; flex-shrink: 0; background: rgba(201,168,76,0.12); border-radius: 12px; display: grid; place-items: center; font-size: 20px; }
+    .resource-info { flex: 1; }
+    .resource-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .resource-info p { font-size: 12px; color: rgba(255,255,255,0.45); }
+    .resource-badge { font-size: 11px; font-weight: 600; background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); border-radius: 20px; padding: 3px 11px; white-space: nowrap; }
+    .resource-arrow { font-size: 18px; color: var(--gold); opacity: .7; }
+
+    /* DIVIDER */
+    .section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); display: flex; align-items: center; gap: 12px; margin: 28px 0 16px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+
+    /* ═══════ EMI CALCULATOR ═══════ */
+    .emi-section {
+      background: rgba(255,255,255,0.03);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .emi-header {
+      background: var(--navy-mid);
+      padding: 18px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .emi-header h3 { font-size: 16px; font-weight: 600; }
+    .exec-only-badge {
+      background: rgba(42,176,154,0.15);
+      border: 1px solid rgba(42,176,154,0.35);
+      color: var(--teal-light);
+      font-size: 11px; font-weight: 600;
+      border-radius: 50px; padding: 5px 13px;
+    }
+
+    .emi-body { padding: 24px; }
+
+    /* Fee input */
+    .fee-input-wrap {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 26px;
+      transition: border-color .2s;
+    }
+    .fee-input-wrap:focus-within { border-color: var(--gold); }
+    .rupee-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(201,168,76,0.15);
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-size: 18px; color: var(--gold); font-weight: 700;
+    }
+    .fee-input-inner { flex: 1; }
+    .fee-input-inner label { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: .5px; display: block; margin-bottom: 4px; }
+    .fee-input-inner input {
+      width: 100%; background: transparent; border: none; outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 26px; font-weight: 600; color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .fee-input-inner input::placeholder { color: rgba(255,255,255,0.2); }
+
+    /* EMI Plan grid */
+    .emi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 14px; }
+
+    .emi-plan {
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 16px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, transform .15s;
+    }
+    .emi-plan:hover { border-color: rgba(42,176,154,0.5); background: rgba(42,176,154,0.06); transform: translateY(-2px); }
+    .emi-plan.selected { border-color: var(--teal-light); background: rgba(42,176,154,0.1); }
+
+    .plan-header { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+    .plan-header span { color: var(--teal-light); }
+    .plan-amount { font-size: 20px; font-weight: 700; line-height: 1; margin-bottom: 3px; }
+    .plan-amount sup { font-size: 13px; font-weight: 600; vertical-align: top; margin-top: 4px; display: inline-block; }
+    .plan-amount .per-mo { font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 400; }
+    .plan-total { font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .plan-chip {
+      background: var(--teal-bg);
+      border: 1px solid rgba(42,176,154,0.25);
+      border-radius: 8px; padding: 6px 9px;
+      font-size: 11px; color: rgba(255,255,255,0.7);
+      line-height: 1.4; display: flex; align-items: flex-start; gap: 5px;
+    }
+
+    /* Hint */
+    .calc-hint { font-size: 11.5px; color: rgba(255,255,255,0.3); display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+
+    /* Breakdown */
+    .breakdown-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 20px; margin-top: 18px; display: none; animation: fadeUp .35s ease; }
+    .breakdown-box.visible { display: block; }
+    .breakdown-title { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 14px; }
+    .breakdown-table { width: 100%; border-collapse: collapse; }
+    .breakdown-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.35); font-weight: 500; padding: 6px 8px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .breakdown-table td { padding: 9px 8px; font-size: 13px; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .breakdown-table td:last-child { text-align: right; font-weight: 500; color: var(--white); }
+    .breakdown-table tr.total-row td { color: var(--gold); font-weight: 700; font-size: 14px; border-top: 1px solid rgba(201,168,76,0.2); border-bottom: none; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid rgba(255,255,255,0.07); padding: 18px 40px; text-align: center; background: rgba(11,31,58,0.6); }
+    .helpdesk-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 5px 16px; font-size: 12.5px; color: rgba(255,255,255,0.45); }
+    .helpdesk-row strong { color: var(--gold); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-right: 4px; }
+    .helpdesk-row a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    .helpdesk-row a:hover { color: var(--gold); }
+    .sep { opacity: .3; }
+
+    @media(max-width:580px) {
+      header { padding: 14px 18px; flex-wrap: wrap; }
+      .helpdesk-pill { display: none; }
+      .role-grid { grid-template-columns: 1fr; }
+      main { padding: 28px 14px 36px; }
+      .emi-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 16px 18px; }
+    }
+    @media(max-width:360px) { .emi-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-mark">G</div>
+    <div class="header-text">
+      <h1>GrayQuest Fee Financing</h1>
+      <span class="sub">Short term EMIs &amp; Long term Loans</span>
+    </div>
+    <div class="helpdesk-pill">
+      <span class="dot"></span>
+      Helpdesk: 080-43060559 / 080-71714239
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ══ SCREEN 1: Role ══ -->
+    <div class="screen active" id="screen-role">
+      <p class="section-eyebrow">Yenepoya Institute</p>
+      <h2 class="section-title">Welcome — who are you?</h2>
+      <p class="section-desc">Select your role to access the guides and EMI tools tailored for you.</p>
+
+      <div class="role-grid">
+        <div class="role-card" onclick="goToResources('student')">
+          <div class="icon">🎓</div>
+          <h3>Parent / Student</h3>
+          <p>Access user guides and calculate your fee EMI options instantly.</p>
+          <div class="arrow">→</div>
+        </div>
+        <div class="role-card" onclick="goToScreen('screen-login')">
+          <div class="icon">💼</div>
+          <h3>GQ IS Executive</h3>
+          <p>Internal access with full calculator and all resources.</p>
+          <div class="arrow">→</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN 2: IS Exec Login ══ -->
+    <div class="screen" id="screen-login">
+      <p class="section-eyebrow">IS Executive Access</p>
+      <h2 class="section-title">Verify your identity</h2>
+      <p class="section-desc">Enter your GrayQuest work email to continue.</p>
+
+      <div class="email-box">
+        <label for="exec-email">Work Email Address</label>
+        <input type="email" id="exec-email" placeholder="yourname@grayquest.com" autocomplete="email"/>
+        <div class="email-hint">Must be a @grayquest.com or @grayquest.co address</div>
+        <div class="error-msg" id="email-error">⚠ Please enter a valid GrayQuest email (@grayquest.com or @grayquest.co)</div>
+      </div>
+
+      <button class="btn btn-primary" onclick="verifyEmail()">Continue →</button>
+      <button class="btn btn-ghost" onclick="goToScreen('screen-role')">← Back</button>
+    </div>
+
+    <!-- ══ SCREEN 3: Resources + Calculator ══ -->
+    <div class="screen" id="screen-resources">
+      <div class="welcome-badge" id="welcome-badge">
+        <span>🎓</span> <span id="role-label">Parent / Student Access</span>
+      </div>
+      <p class="section-eyebrow">Yenepoya Institute</p>
+      <h2 class="section-title">Resources</h2>
+      <p class="section-desc">User guides and EMI calculator for GrayQuest fee financing.</p>
+
+      <!-- User Guides -->
+      <a class="resource-card"
+         href="https://drive.google.com/drive/folders/1FL9Q7N6fhSuj0Q9DEymbRyz_wOhFV-DY?usp=sharing"
+         target="_blank" rel="noopener">
+        <div class="resource-icon">📋</div>
+        <div class="resource-info">
+          <h4>Short-Term EMI Options</h4>
+          <p>User guide for short-term fee instalment plans</p>
+        </div>
+        <div class="resource-badge">User Guide</div>
+        <div class="resource-arrow">↗</div>
+      </a>
+
+      <a class="resource-card"
+         href="https://drive.google.com/drive/folders/1FL9Q7N6fhSuj0Q9DEymbRyz_wOhFV-DY?usp=sharing"
+         target="_blank" rel="noopener">
+        <div class="resource-icon">🏛️</div>
+        <div class="resource-info">
+          <h4>Long-Term Education Loan</h4>
+          <p>User guide for long-term education loan options</p>
+        </div>
+        <div class="resource-badge">User Guide</div>
+        <div class="resource-arrow">↗</div>
+      </a>
+
+      <!-- IS Executive only: Full spreadsheet -->
+      <div id="full-calc-link" style="display:none;">
+        <div class="section-label">Full Spreadsheet <span class="sep">|</span> Executive Only</div>
+        <a class="resource-card"
+           href="https://docs.google.com/spreadsheets/d/1zyGSpI7tuINQ5B4pCpS-MgTRkYuR_a5vXF92VNqiG0M/edit?usp=sharing"
+           target="_blank" rel="noopener"
+           style="border-color:rgba(42,176,154,0.3);background:rgba(42,176,154,0.05);">
+          <div class="resource-icon" style="background:rgba(42,176,154,0.15);">🧮</div>
+          <div class="resource-info">
+            <h4>Full EMI Calculator (Spreadsheet)</h4>
+            <p>Detailed GrayQuest EMI calculation workbook</p>
+          </div>
+          <div class="resource-badge" style="color:#2ab09a;border-color:rgba(42,176,154,0.35);background:rgba(42,176,154,0.1);">Executive</div>
+          <div class="resource-arrow">↗</div>
+        </a>
+      </div>
+
+      <!-- ── EMI CALCULATOR ── -->
+      <div class="section-label">Short-Term EMI Calculator</div>
+
+      <div class="emi-section">
+        <div class="emi-header">
+          <h3>Calculate monthly EMI</h3>
+          <span class="exec-only-badge" id="exec-only-badge" style="display:none;">IS Executive only</span>
+        </div>
+        <div class="emi-body">
+
+          <div class="fee-input-wrap">
+            <div class="rupee-icon">₹</div>
+            <div class="fee-input-inner">
+              <label for="fee-input">Enter fee amount</label>
+              <input type="text" id="fee-input" placeholder="1,00,000" inputmode="numeric"/>
+            </div>
+          </div>
+
+          <div class="emi-grid" id="emi-grid">
+            <div style="grid-column:1/-1;text-align:center;padding:20px 0;color:rgba(255,255,255,0.25);font-size:13px;">Enter a fee amount above to see EMI plans</div>
+          </div>
+
+          <div class="calc-hint">ⓘ Click any plan to see the full monthly breakdown below.</div>
+
+          <div class="breakdown-box" id="breakdown-box">
+            <div class="breakdown-title" id="breakdown-title"></div>
+            <table class="breakdown-table" id="breakdown-table"></table>
+          </div>
+
+        </div>
+      </div>
+
+      <button class="btn btn-ghost" style="margin-top:20px;" onclick="goToScreen('screen-role')">← Back to Home</button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="helpdesk-row">
+      <span><strong>GrayQuest Helpdesk</strong></span>
+      <a href="tel:08043060559">080-43060559</a>
+      <span class="sep">·</span>
+      <a href="tel:08071714239">080-71714239</a>
+      <span class="sep">·</span>
+      <span style="color:rgba(255,255,255,0.35);font-size:11px;letter-spacing:.5px;">Short-Term EMI:</span>
+      <a href="mailto:yenepoya.support@grayquest.com">yenepoya.support@grayquest.com</a>
+      <span class="sep">·</span>
+      <span style="color:rgba(255,255,255,0.35);font-size:11px;letter-spacing:.5px;">Education Loan:</span>
+      <a href="mailto:eduloan.yenepoya@grayquest.com">eduloan.yenepoya@grayquest.com</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  /* ── EMI Plan data (rate = flat % on principal) — source: GQ EMI Calculator (AY26) - Yenepoya ── */
+  const PLANS = [
+    { months: 6,  rate: 1.99 },
+    { months: 8,  rate: 3.60 },
+    { months: 10, rate: 4.75 },
+    { months: 12, rate: 5.99 },
+  ];
+
+  let selectedIdx = null;
+
+  /* Indian number formatting */
+  function fmt(n) { return Math.round(n).toLocaleString('en-IN'); }
+
+  function parseAmt(str) { return parseInt(str.replace(/[^0-9]/g, ''), 10) || 0; }
+
+  function calc(principal, plan) {
+    const interest   = principal * (plan.rate / 100);
+    const total      = principal + interest;
+    const monthlyEmi = total / plan.months;
+    const monthlyInt = interest / plan.months;
+    return { interest, total, monthlyEmi, monthlyInt };
+  }
+
+  function renderGrid() {
+    const principal = parseAmt(document.getElementById('fee-input').value);
+    const grid = document.getElementById('emi-grid');
+
+    if (!principal) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px 0;color:rgba(255,255,255,0.25);font-size:13px;">Enter a fee amount above to see EMI plans</div>';
+      document.getElementById('breakdown-box').classList.remove('visible');
+      return;
+    }
+
+    grid.innerHTML = PLANS.map((plan, i) => {
+      const c = calc(principal, plan);
+      return `
+        <div class="emi-plan${selectedIdx === i ? ' selected' : ''}" onclick="selectPlan(${i})">
+          <div class="plan-header">${plan.months} EMIs · <span>${plan.rate}%</span></div>
+          <div class="plan-amount"><sup>₹</sup>${fmt(c.monthlyEmi)}<span class="per-mo">/mo</span></div>
+          <div class="plan-total">Total ₹${fmt(c.total)}</div>
+          <div class="plan-chip">💡 Monthly interest as low as ₹${fmt(c.monthlyInt)}</div>
+        </div>`;
+    }).join('');
+
+    if (selectedIdx !== null) renderBreakdown(principal);
+  }
+
+  function selectPlan(i) {
+    selectedIdx = i;
+    renderGrid();
+    renderBreakdown(parseAmt(document.getElementById('fee-input').value));
+  }
+
+  function renderBreakdown(principal) {
+    if (selectedIdx === null || !principal) return;
+    const plan = PLANS[selectedIdx];
+    const c = calc(principal, plan);
+
+    document.getElementById('breakdown-title').textContent =
+      `Breakdown — ${plan.months}-month plan @ ${plan.rate}%`;
+
+    let rows = '';
+    for (let m = 1; m <= plan.months; m++) {
+      rows += `<tr>
+        <td>Month ${m}</td>
+        <td>₹${fmt(c.monthlyEmi - c.monthlyInt)}</td>
+        <td>₹${fmt(c.monthlyInt)}</td>
+        <td>₹${fmt(c.monthlyEmi)}</td>
+      </tr>`;
+    }
+
+    document.getElementById('breakdown-table').innerHTML = `
+      <thead><tr><th>Month</th><th>Principal</th><th>Interest</th><th>EMI</th></tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr class="total-row">
+        <td>Total</td><td>₹${fmt(principal)}</td><td>₹${fmt(c.interest)}</td><td>₹${fmt(c.total)}</td>
+      </tr></tfoot>`;
+
+    const box = document.getElementById('breakdown-box');
+    box.classList.add('visible');
+    setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
+  }
+
+  /* Format input as Indian numbers while typing */
+  document.getElementById('fee-input').addEventListener('input', function () {
+    const raw = this.value.replace(/[^0-9]/g, '');
+    this.value = raw ? parseInt(raw, 10).toLocaleString('en-IN') : '';
+    selectedIdx = null;
+    document.getElementById('breakdown-box').classList.remove('visible');
+    renderGrid();
+  });
+
+  /* ── Navigation ── */
+  function goToScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const t = document.getElementById(id);
+    t.style.animation = 'none'; t.offsetHeight; t.style.animation = '';
+    t.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goToResources(role) {
+    const isExec = role === 'exec';
+    document.getElementById('full-calc-link').style.display = isExec ? 'block' : 'none';
+    document.getElementById('exec-only-badge').style.display = isExec ? 'inline-block' : 'none';
+
+    const badge = document.getElementById('welcome-badge');
+    if (isExec) {
+      badge.innerHTML = '<span>💼</span><span>IS Executive Access</span>';
+      badge.style.cssText = 'background:rgba(42,176,154,0.15);border-color:rgba(42,176,154,0.3);color:#2ab09a;';
+    } else {
+      badge.innerHTML = '<span>🎓</span><span>Parent / Student Access</span>';
+      badge.style.cssText = '';
+    }
+
+    // Reset calculator
+    selectedIdx = null;
+    document.getElementById('fee-input').value = '';
+    document.getElementById('breakdown-box').classList.remove('visible');
+    renderGrid();
+
+    goToScreen('screen-resources');
+  }
+
+  function verifyEmail() {
+    const input = document.getElementById('exec-email');
+    const err = document.getElementById('email-error');
+    const val = input.value.trim().toLowerCase();
+    const ok = val.endsWith('@grayquest.com') || val.endsWith('@grayquest.co');
+    if (!ok) { err.style.display = 'block'; input.style.borderColor = '#f07070'; return; }
+    err.style.display = 'none'; input.style.borderColor = '';
+    goToResources('exec');
+  }
+
+  document.getElementById('exec-email').addEventListener('keydown', e => { if (e.key === 'Enter') verifyEmail(); });
+</script>
+</body>
+</html>
